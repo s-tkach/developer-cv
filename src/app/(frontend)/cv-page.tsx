@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import type { Locale } from '@/i18n/routing'
+import { ExperienceCard } from './experience-card'
 
 type LinkItem = {
   label?: string | null
@@ -170,35 +171,22 @@ export async function CVPage({ locale }: { locale: Locale }) {
 
       <Separator />
 
-      <section className="container grid gap-8 py-12 lg:grid-cols-[0.8fr_1.2fr]" id="experience">
+      <section className="container grid gap-8 py-12 lg:grid-cols-[0.5fr_1.5fr]" id="experience">
         <SectionTitle title={t('experience')} />
         <div className="space-y-4">
           {data.experiences.length > 0 ? (
             data.experiences.map((experience) => (
-              <Card key={experience.id}>
-                <CardHeader>
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <CardTitle>{experience.role}</CardTitle>
-                      <p className="mt-1 text-muted-foreground">
-                        {[experience.company, experience.location].filter(Boolean).join(' · ')}
-                      </p>
-                    </div>
-                    <Badge variant="outline">{formatDateRange(experience, locale, t('current'))}</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {experience.summary && <p>{experience.summary}</p>}
-                  {experience.highlights && experience.highlights.length > 0 && (
-                    <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
-                      {experience.highlights.map((highlight) =>
-                        highlight.text ? <li key={highlight.text}>{highlight.text}</li> : null,
-                      )}
-                    </ul>
-                  )}
-                  <BadgeList items={experience.technologies?.map((item) => item.name)} />
-                </CardContent>
-              </Card>
+              <ExperienceCard
+                company={experience.company}
+                dateRange={formatDateRange(experience, locale, t('current'))}
+                defaultOpen={Boolean(experience.isCurrent)}
+                highlights={experience.highlights}
+                key={experience.id}
+                location={experience.location}
+                role={experience.role}
+                summary={experience.summary}
+                technologies={experience.technologies}
+              />
             ))
           ) : (
             <EmptyCard message={t('empty')} />
@@ -208,7 +196,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
 
       <Separator />
 
-      <section className="container grid gap-8 py-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <section className="container grid gap-8 py-12 lg:grid-cols-[0.5fr_1.5fr]">
         <SectionTitle title={t('projects')} />
         <div className="grid gap-4 md:grid-cols-2">
           {data.projects.length > 0 ? (
@@ -247,7 +235,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
 
       <Separator />
 
-      <section className="container grid gap-8 py-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <section className="container grid gap-8 py-12 lg:grid-cols-[0.5fr_1.5fr]">
         <SectionTitle title={t('skills')} />
         <div className="grid gap-4 md:grid-cols-2">
           {data.skills.length > 0 ? (
@@ -269,7 +257,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
 
       <Separator />
 
-      <section className="container grid gap-8 py-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <section className="container grid gap-8 py-12 lg:grid-cols-[0.5fr_1.5fr]">
         <SectionTitle title={t('education')} />
         <TimelineList
           items={data.education.map((item) => ({
@@ -285,7 +273,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
 
       <Separator />
 
-      <section className="container grid gap-8 py-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <section className="container grid gap-8 py-12 lg:grid-cols-[0.5fr_1.5fr]">
         <SectionTitle title={t('certifications')} />
         <TimelineList
           items={data.certifications.map((item) => ({
