@@ -6,6 +6,7 @@ A developer CV/portfolio project powered by Payload CMS, Next.js, React, Vercel 
 
 - Payload CMS 3 with the Next.js App Router
 - Vercel Postgres via `@payloadcms/db-vercel-postgres`
+- Vercel Blob for Payload media uploads
 - Next.js 16 and React 19
 - next-intl with English and Ukrainian routes
 - Tailwind CSS and shadcn/ui components
@@ -26,13 +27,14 @@ The project expects Vercel Postgres-compatible variables:
 
 ```env
 POSTGRES_URL=postgres://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require
+BLOB_READ_WRITE_TOKEN=vercel_blob_rw_...
 PAYLOAD_SECRET=replace-with-a-long-random-secret
 NEXT_PUBLIC_SERVER_URL=http://localhost:3000
 CRON_SECRET=replace-with-a-long-random-secret
 PREVIEW_SECRET=replace-with-a-long-random-secret
 ```
 
-Use Vercel's Postgres integration to populate `POSTGRES_URL` in production. Keep `.env` and `.env.local` out of git.
+Use Vercel's Postgres integration to populate `POSTGRES_URL` in production and Vercel Blob to populate `BLOB_READ_WRITE_TOKEN` for Payload media uploads. Keep `.env` and `.env.local` out of git.
 
 ## CV Content
 
