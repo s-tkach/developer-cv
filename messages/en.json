@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "title": "Developer CV",
+    "description": "A developer CV powered by Payload CMS."
+  },
+  "nav": {
+    "skipToContent": "Skip to content",
+    "language": "Language",
+    "english": "English",
+    "ukrainian": "Ukrainian"
+  },
+  "cv": {
+    "defaultName": "Your Name",
+    "defaultHeadline": "Full-stack developer",
+    "defaultSummary": "Use Payload CMS to add your summary, experience, projects, skills, education, and certifications.",
+    "contact": "Contact",
+    "experience": "Experience",
+    "projects": "Projects",
+    "skills": "Skills",
+    "education": "Education",
+    "certifications": "Certifications",
+    "current": "Present",
+    "featured": "Featured",
+    "empty": "Add CV content in the Payload admin panel to publish this section.",
+    "adminCta": "Open Payload Admin"
+  }
+}
