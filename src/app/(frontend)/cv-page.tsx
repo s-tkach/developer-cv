@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 
 import configPromise from '@payload-config'
-import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { getPayload } from 'payload'
 import React from 'react'
@@ -126,9 +125,6 @@ export async function CVPage({ locale }: { locale: Locale }) {
           <a className="sr-only focus:not-sr-only" href="#experience">
             {nav('skipToContent')}
           </a>
-          <Button asChild size="sm" variant="secondary">
-            <Link href="/admin">{t('adminCta')}</Link>
-          </Button>
         </div>
 
         <div className="grid gap-12 lg:grid-cols-[1fr_420px]">
