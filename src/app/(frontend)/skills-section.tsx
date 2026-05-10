@@ -32,6 +32,7 @@ export function SkillsSection({ skills, legendText, heading }: SkillsSectionProp
       <h2 className="mb-6 text-3xl font-semibold tracking-tight">
         <a href="#skills" className="hover:underline underline-offset-4 decoration-muted-foreground/50">{heading}</a>
       </h2>
+      <hr className="mb-8 border-border" />
       {skills.length === 0 ? (
         <p className="text-sm text-muted-foreground">No skills added yet.</p>
       ) : (

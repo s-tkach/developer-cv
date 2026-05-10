@@ -156,7 +156,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
       </section>
 
       {/* Experience */}
-      <div className="border-t border-border">
+      <div>
         <ExperienceSection
           experiences={data.experiences}
           locale={locale}
@@ -174,7 +174,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
       </div>
 
       {/* Skills */}
-      <div className="border-t border-border">
+      <div>
         <SkillsSection
           skills={data.skills}
           legendText={t('skillsLegend')}
@@ -183,7 +183,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
       </div>
 
       {/* Projects */}
-      <div className="border-t border-border">
+      <div>
         <ProjectsSection
           projects={data.projects}
           locale={locale}
@@ -194,7 +194,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
       </div>
 
       {/* Background */}
-      <div className="border-t border-border">
+      <div>
         <BackgroundSection
           education={data.education}
           certifications={data.certifications}
@@ -207,11 +207,12 @@ export async function CVPage({ locale }: { locale: Locale }) {
       </div>
 
       {/* Contact */}
-      <div className="border-t border-border">
+      <div>
         <section className="container py-12" id="contact">
           <h2 className="mb-6 text-3xl font-semibold tracking-tight">
             <a href="#contact" className="hover:underline underline-offset-4 decoration-muted-foreground/50">{t('contact')}</a>
           </h2>
+          <hr className="mb-8 border-border" />
           <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
             {profile?.email && (
               <ContactCard label="Email" href={`mailto:${profile.email}`} />

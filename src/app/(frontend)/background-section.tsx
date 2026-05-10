@@ -44,6 +44,7 @@ export function BackgroundSection({
       <h2 className="mb-6 text-3xl font-semibold tracking-tight">
         <a href="#background" className="hover:underline underline-offset-4 decoration-muted-foreground/50">{heading}</a>
       </h2>
+      <hr className="mb-8 border-border" />
       <div className="grid gap-8 lg:grid-cols-2">
         <div>
           <h3 className="mb-4 font-semibold text-lg">{educationTitle}</h3>

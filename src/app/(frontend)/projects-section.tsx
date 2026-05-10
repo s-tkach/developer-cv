@@ -40,6 +40,7 @@ export function ProjectsSection({
       <h2 className="mb-6 text-3xl font-semibold tracking-tight">
         <a href="#projects" className="hover:underline underline-offset-4 decoration-muted-foreground/50">{heading}</a>
       </h2>
+      <hr className="mb-8 border-border" />
       {projects.length === 0 ? (
         <p className="text-sm text-muted-foreground">{emptyMessage}</p>
       ) : (
