@@ -3,7 +3,6 @@
 import { useState } from 'react'
 
 import { ExperienceCard } from './experience-card'
-import { SectionLabel } from './_cv-utils'
 
 type Experience = {
   id: string | number
@@ -28,7 +27,7 @@ type ExperienceSectionProps = {
     education: string
     certification: string
     current: string
-    sectionLabel: string
+    heading: string
     empty: string
   }
   locale: string
@@ -52,9 +51,10 @@ export function ExperienceSection({ experiences, strings, locale }: ExperienceSe
 
   return (
     <section className="container py-12" id="experience">
-      <SectionLabel label={strings.sectionLabel} />
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <h2 className="text-3xl font-semibold tracking-tight">Experience</h2>
+        <h2 className="text-3xl font-semibold tracking-tight">
+          <a href="#experience" className="hover:underline underline-offset-4 decoration-muted-foreground/50">{strings.heading}</a>
+        </h2>
         <div className="flex flex-wrap gap-2">
           {FILTER_TYPES.map((f) => {
             const isActive = active === f

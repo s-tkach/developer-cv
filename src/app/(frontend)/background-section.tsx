@@ -1,6 +1,5 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { SectionLabel } from './_cv-utils'
 import type { Locale } from '@/i18n/routing'
 
 type EducationData = {
@@ -25,7 +24,7 @@ type BackgroundSectionProps = {
   education: EducationData[]
   certifications: CertificationData[]
   locale: Locale
-  sectionLabel: string
+  heading: string
   educationTitle: string
   certificationsTitle: string
   emptyMessage: string
@@ -35,15 +34,16 @@ export function BackgroundSection({
   education,
   certifications,
   locale,
-  sectionLabel,
+  heading,
   educationTitle,
   certificationsTitle,
   emptyMessage,
 }: BackgroundSectionProps) {
   return (
-    <section className="container py-12">
-      <SectionLabel label={sectionLabel} />
-      <h2 className="mb-6 text-3xl font-semibold tracking-tight">Background</h2>
+    <section className="container py-12" id="background">
+      <h2 className="mb-6 text-3xl font-semibold tracking-tight">
+        <a href="#background" className="hover:underline underline-offset-4 decoration-muted-foreground/50">{heading}</a>
+      </h2>
       <div className="grid gap-8 lg:grid-cols-2">
         <div>
           <h3 className="mb-4 font-semibold text-lg">{educationTitle}</h3>

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Media } from '@/components/Media'
-import { BadgeList, SectionLabel } from './_cv-utils'
+import { BadgeList } from './_cv-utils'
 import type { Locale } from '@/i18n/routing'
 
 type LinkItem = { label?: string | null; url?: string | null }
@@ -23,7 +23,7 @@ type ProjectData = {
 type ProjectsSectionProps = {
   projects: ProjectData[]
   locale: Locale
-  sectionLabel: string
+  heading: string
   featuredLabel: string
   emptyMessage: string
 }
@@ -31,14 +31,15 @@ type ProjectsSectionProps = {
 export function ProjectsSection({
   projects,
   locale,
-  sectionLabel,
+  heading,
   featuredLabel,
   emptyMessage,
 }: ProjectsSectionProps) {
   return (
-    <section className="container py-12">
-      <SectionLabel label={sectionLabel} />
-      <h2 className="mb-6 text-3xl font-semibold tracking-tight">Projects</h2>
+    <section className="container py-12" id="projects">
+      <h2 className="mb-6 text-3xl font-semibold tracking-tight">
+        <a href="#projects" className="hover:underline underline-offset-4 decoration-muted-foreground/50">{heading}</a>
+      </h2>
       {projects.length === 0 ? (
         <p className="text-sm text-muted-foreground">{emptyMessage}</p>
       ) : (

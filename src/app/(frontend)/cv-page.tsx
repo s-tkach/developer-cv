@@ -3,8 +3,6 @@ import type { Metadata } from 'next'
 import configPromise from '@payload-config'
 import { getTranslations } from 'next-intl/server'
 import { getPayload } from 'payload'
-import React from 'react'
-
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import type { Locale } from '@/i18n/routing'
@@ -12,7 +10,6 @@ import { BackgroundSection } from './background-section'
 import { ExperienceSection } from './experience-section'
 import { ProjectsSection } from './projects-section'
 import { SkillsSection } from './skills-section'
-import { SectionLabel } from './_cv-utils'
 
 type LinkItem = {
   label?: string | null
@@ -170,7 +167,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
             education: t('filterEducation'),
             certification: t('filterCertification'),
             current: t('current'),
-            sectionLabel: t('sectionCareer'),
+            heading: t('experience'),
             empty: t('empty'),
           }}
         />
@@ -181,7 +178,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
         <SkillsSection
           skills={data.skills}
           legendText={t('skillsLegend')}
-          sectionLabel={t('sectionStack')}
+          heading={t('skills')}
         />
       </div>
 
@@ -190,7 +187,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
         <ProjectsSection
           projects={data.projects}
           locale={locale}
-          sectionLabel={t('sectionWork')}
+          heading={t('projects')}
           featuredLabel={t('featured')}
           emptyMessage={t('empty')}
         />
@@ -202,7 +199,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
           education={data.education}
           certifications={data.certifications}
           locale={locale}
-          sectionLabel={t('sectionBackground')}
+          heading={t('background')}
           educationTitle={t('education')}
           certificationsTitle={t('certifications')}
           emptyMessage={t('empty')}
@@ -211,9 +208,10 @@ export async function CVPage({ locale }: { locale: Locale }) {
 
       {/* Contact */}
       <div className="border-t border-border">
-        <section className="container py-12">
-          <SectionLabel label={t('sectionReachOut')} />
-          <h2 className="mb-6 text-3xl font-semibold tracking-tight">{t('contact')}</h2>
+        <section className="container py-12" id="contact">
+          <h2 className="mb-6 text-3xl font-semibold tracking-tight">
+            <a href="#contact" className="hover:underline underline-offset-4 decoration-muted-foreground/50">{t('contact')}</a>
+          </h2>
           <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
             {profile?.email && (
               <ContactCard label="Email" href={`mailto:${profile.email}`} />

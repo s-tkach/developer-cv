@@ -26,16 +26,12 @@
     "getInTouch": "Написати мені",
     "letsTalk": "Поговоримо",
     "skillsLegend": "Смуги показують приблизну кількість років використання",
+    "background": "Освіта",
     "filterAll": "Усі",
     "filterEngineering": "Розробка",
     "filterLeadership": "Лідерство",
     "filterEducation": "Освіта",
     "filterCertification": "Сертифікація",
-    "sectionCareer": "03 — КАР'ЄРА",
-    "sectionStack": "04 — СТЕК",
-    "sectionWork": "05 — ПРОЄКТИ",
-    "sectionBackground": "06 — ОСВІТА",
-    "sectionReachOut": "08 — КОНТАКТИ",
     "resume": "Резюме"
   }
 }

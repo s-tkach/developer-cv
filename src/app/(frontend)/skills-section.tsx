@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { SectionLabel } from './_cv-utils'
 
 const MAX_YEARS = 20
 
@@ -24,14 +23,15 @@ type SkillData = {
 type SkillsSectionProps = {
   skills: SkillData[]
   legendText: string
-  sectionLabel: string
+  heading: string
 }
 
-export function SkillsSection({ skills, legendText, sectionLabel }: SkillsSectionProps) {
+export function SkillsSection({ skills, legendText, heading }: SkillsSectionProps) {
   return (
-    <section className="container py-12">
-      <SectionLabel label={sectionLabel} />
-      <h2 className="mb-6 text-3xl font-semibold tracking-tight">Skills</h2>
+    <section className="container py-12" id="skills">
+      <h2 className="mb-6 text-3xl font-semibold tracking-tight">
+        <a href="#skills" className="hover:underline underline-offset-4 decoration-muted-foreground/50">{heading}</a>
+      </h2>
       {skills.length === 0 ? (
         <p className="text-sm text-muted-foreground">No skills added yet.</p>
       ) : (
