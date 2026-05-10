@@ -36,11 +36,13 @@ export function SkillsSection({ skills, legendText, sectionLabel }: SkillsSectio
         <p className="text-sm text-muted-foreground">No skills added yet.</p>
       ) : (
         <>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-3">
             {skills.map((skill) => (
               <Card key={skill.id}>
-                <CardHeader>
-                  <CardTitle>{skill.category}</CardTitle>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    {skill.category}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {skill.items?.map((item) => {
@@ -51,8 +53,8 @@ export function SkillsSection({ skills, legendText, sectionLabel }: SkillsSectio
 
                     return (
                       <div className="flex items-center gap-3" key={item.name}>
-                        <span className="w-28 shrink-0 text-sm">{item.name}</span>
-                        <div className="flex-1 overflow-hidden rounded-full bg-muted h-1.5">
+                        <span className="flex-1 text-sm">{item.name}</span>
+                        <div className="w-32 overflow-hidden rounded-full bg-muted h-1.5">
                           <div
                             className="h-full rounded-full"
                             style={{
