@@ -60,9 +60,9 @@ export function ExperienceCard({
   const midYears = getIntermediateYears(startYear, endYear, isCurrent)
 
   return (
-    <div className="relative flex items-start">
+    <div className="relative flex items-stretch">
       {/* Date column — 9rem wide, right edge aligns with the vertical timeline border */}
-      <div className="w-36 shrink-0 hidden sm:flex flex-col items-end pt-1">
+      <div className="w-36 shrink-0 hidden sm:flex flex-col items-end justify-between py-1">
         {/* End date + dot */}
         <div className="flex items-center">
           <span className="font-mono text-xs font-semibold text-foreground whitespace-nowrap pr-2">
@@ -73,29 +73,23 @@ export function ExperienceCard({
             style={{ backgroundColor: dotColor }}
           />
         </div>
-        {/* Between end and start: small dots (collapsed) or year labels + dots (expanded) */}
-        {midYears.length > 0 && (
-          isOpen ? (
-            <div className="flex flex-col items-end gap-1.5 my-2">
-              {midYears.map((year) => (
-                <div key={year} className="flex items-center">
-                  <span className="font-mono text-[10px] text-muted-foreground/40 pr-2">{year}</span>
-                  <span className="size-1.5 rounded-full bg-border/60 translate-x-1.5 shrink-0" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col items-end gap-1.5 my-2">
-              {Array.from({ length: Math.min(midYears.length, 3) }).map((_, i) => (
-                <span key={i} className="size-1.5 rounded-full bg-border/40 translate-x-1.5 shrink-0" />
-              ))}
-            </div>
-          )
-        )}
-        {/* Start date */}
-        <span className="font-mono text-xs text-muted-foreground whitespace-nowrap pr-5">
-          {startLabel}
-        </span>
+        {/* Intermediate year labels (expanded only) — spread by parent justify-between */}
+        {isOpen && midYears.map((year) => (
+          <div key={year} className="flex items-center">
+            <span className="font-mono text-[10px] text-muted-foreground/40 pr-2">{year}</span>
+            <span className="size-2 rounded-full bg-border/60 shrink-0 translate-x-1" />
+          </div>
+        ))}
+        {/* Start date + dot */}
+        <div className="flex items-center">
+          <span className="font-mono text-xs text-muted-foreground whitespace-nowrap pr-2">
+            {startLabel}
+          </span>
+          <span
+            className="size-3 rounded-full shrink-0 translate-x-1.5"
+            style={{ backgroundColor: dotColor }}
+          />
+        </div>
       </div>
 
       {/* Gap between timeline line and card */}
