@@ -126,6 +126,8 @@
   --cv-accent-blue: oklch(60% 0.2 260deg);
   --cv-accent-amber: oklch(75% 0.18 75deg);
   --cv-accent-teal: oklch(65% 0.14 185deg);
+  --cv-accent-purple: oklch(65% 0.18 295deg);
+  --cv-accent-green: oklch(65% 0.16 145deg);
 }
 
 [data-theme='dark'] {
@@ -167,6 +169,8 @@
   --cv-accent-blue: oklch(65% 0.22 260deg);
   --cv-accent-amber: oklch(80% 0.18 75deg);
   --cv-accent-teal: oklch(70% 0.14 185deg);
+  --cv-accent-purple: oklch(70% 0.18 295deg);
+  --cv-accent-green: oklch(70% 0.16 145deg);
 }
 
 @theme inline {
@@ -212,6 +216,8 @@
   --color-cv-accent-blue: var(--cv-accent-blue);
   --color-cv-accent-amber: var(--cv-accent-amber);
   --color-cv-accent-teal: var(--cv-accent-teal);
+  --color-cv-accent-purple: var(--cv-accent-purple);
+  --color-cv-accent-green: var(--cv-accent-green);
 }
 
 @layer base {
