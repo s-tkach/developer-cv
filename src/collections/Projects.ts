@@ -72,5 +72,15 @@ export const Projects: CollectionConfig = {
         },
       ],
     },
+    { name: 'image', type: 'upload', relationTo: 'media' },
+    { name: 'startDate', type: 'date' },
+    { name: 'endDate', type: 'date' },
+    { name: 'roleLabel', type: 'text', localized: true },
+    {
+      name: 'highlights',
+      type: 'array',
+      localized: true,
+      fields: [{ name: 'text', type: 'text', required: true }],
+    },
   ],
 }

@@ -7,14 +7,17 @@ import React, { useEffect, useState } from 'react'
 import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
+import { Button } from '@/components/ui/button'
+import { ThemeToggleButton } from '@/components/ThemeToggleButton'
 import { HeaderNav } from './Nav'
 
 interface HeaderClientProps {
   data: Header | null
+  resumeUrl: string | null
+  resumeLabel: string
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
-  /* Storing the value in a useState to avoid hydration errors */
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data, resumeUrl, resumeLabel }) => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
@@ -30,12 +33,22 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
+    <header className="container relative z-20" {...(theme ? { 'data-theme': theme } : {})}>
+      <div className="py-8 flex justify-between items-center gap-4">
         <Link href="/">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
         </Link>
-        <HeaderNav data={data} />
+        <div className="flex items-center gap-2">
+          <HeaderNav data={data} />
+          <ThemeToggleButton />
+          {resumeUrl && (
+            <Button asChild size="sm">
+              <a href={resumeUrl} target="_blank" rel="noreferrer">
+                {resumeLabel}
+              </a>
+            </Button>
+          )}
+        </div>
       </div>
     </header>
   )

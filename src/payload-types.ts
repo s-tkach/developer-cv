@@ -818,6 +818,7 @@ export interface Experience {
         id?: string | null;
       }[]
     | null;
+  type?: ('engineering' | 'leadership' | 'education' | 'certification' | 'other') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -844,6 +845,16 @@ export interface Project {
         id?: string | null;
       }[]
     | null;
+  image?: (number | null) | Media;
+  startDate?: string | null;
+  endDate?: string | null;
+  roleLabel?: string | null;
+  highlights?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -858,6 +869,7 @@ export interface Skill {
   items: {
     name: string;
     level?: ('core' | 'advanced' | 'familiar') | null;
+    years?: number | null;
     id?: string | null;
   }[];
   updatedAt: string;
@@ -1373,6 +1385,7 @@ export interface ExperiencesSelect<T extends boolean = true> {
         name?: T;
         id?: T;
       };
+  type?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1398,6 +1411,16 @@ export interface ProjectsSelect<T extends boolean = true> {
         name?: T;
         id?: T;
       };
+  image?: T;
+  startDate?: T;
+  endDate?: T;
+  roleLabel?: T;
+  highlights?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1413,6 +1436,7 @@ export interface SkillsSelect<T extends boolean = true> {
     | {
         name?: T;
         level?: T;
+        years?: T;
         id?: T;
       };
   updatedAt?: T;
@@ -1874,6 +1898,14 @@ export interface Profile {
         id?: string | null;
       }[]
     | null;
+  stats?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  resume?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1952,6 +1984,14 @@ export interface ProfileSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  resume?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

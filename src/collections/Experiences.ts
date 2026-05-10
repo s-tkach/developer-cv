@@ -76,5 +76,15 @@ export const Experiences: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'type',
+      type: 'select',
+      defaultValue: 'engineering',
+      admin: { position: 'sidebar' },
+      options: ['engineering', 'leadership', 'education', 'certification', 'other'].map((v) => ({
+        label: v[0].toUpperCase() + v.slice(1),
+        value: v,
+      })),
+    },
   ],
 }

@@ -60,6 +60,7 @@ export const Skills: CollectionConfig = {
             },
           ],
         },
+        { name: 'years', type: 'number', min: 0, max: 40 },
       ],
     },
   ],

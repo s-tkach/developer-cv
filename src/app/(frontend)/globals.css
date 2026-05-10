@@ -123,6 +123,9 @@
   --success: oklch(78% 0.08 200deg);
   --warning: oklch(89% 0.1 75deg);
   --error: oklch(75% 0.15 25deg);
+  --cv-accent-blue: oklch(60% 0.2 260deg);
+  --cv-accent-amber: oklch(75% 0.18 75deg);
+  --cv-accent-teal: oklch(65% 0.14 185deg);
 }
 
 [data-theme='dark'] {
@@ -161,6 +164,9 @@
   --success: oklch(28% 0.1 200deg);
   --warning: oklch(35% 0.08 70deg);
   --error: oklch(45% 0.1 25deg);
+  --cv-accent-blue: oklch(65% 0.22 260deg);
+  --cv-accent-amber: oklch(80% 0.18 75deg);
+  --cv-accent-teal: oklch(70% 0.14 185deg);
 }
 
 @theme inline {
@@ -203,6 +209,9 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+  --color-cv-accent-blue: var(--cv-accent-blue);
+  --color-cv-accent-amber: var(--cv-accent-amber);
+  --color-cv-accent-teal: var(--cv-accent-teal);
 }
 
 @layer base {

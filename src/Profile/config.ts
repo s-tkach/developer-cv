@@ -60,5 +60,19 @@ export const Profile: GlobalConfig = {
         },
       ],
     },
+    {
+      name: 'stats',
+      type: 'array',
+      admin: { initCollapsed: true },
+      fields: [
+        { name: 'value', type: 'text', required: true },
+        { name: 'label', type: 'text', localized: true, required: true },
+      ],
+    },
+    {
+      name: 'resume',
+      type: 'upload',
+      relationTo: 'media',
+    },
   ],
 }

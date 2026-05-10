@@ -22,6 +22,20 @@
     "current": "Present",
     "featured": "Featured",
     "empty": "Add CV content in the Payload admin panel to publish this section.",
-    "adminCta": "Open Payload Admin"
+    "adminCta": "Open Payload Admin",
+    "getInTouch": "Get in touch",
+    "letsTalk": "Let's talk",
+    "skillsLegend": "Bars show approximate years of use",
+    "filterAll": "All",
+    "filterEngineering": "Engineering",
+    "filterLeadership": "Leadership",
+    "filterEducation": "Education",
+    "filterCertification": "Certification",
+    "sectionCareer": "03 — CAREER",
+    "sectionStack": "04 — STACK",
+    "sectionWork": "05 — WORK",
+    "sectionBackground": "06 — BACKGROUND",
+    "sectionReachOut": "08 — REACH OUT",
+    "resume": "Resume"
   }
 }
