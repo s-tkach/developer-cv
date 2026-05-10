@@ -6,12 +6,14 @@ import { getTranslations } from 'next-intl/server'
 import { getPayload } from 'payload'
 import React from 'react'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
+import { Card, CardContent } from '@/components/ui/card'
 import type { Locale } from '@/i18n/routing'
-import { ExperienceCard } from './experience-card'
+import { BackgroundSection } from './background-section'
+import { ExperienceSection } from './experience-section'
+import { ProjectsSection } from './projects-section'
+import { SkillsSection } from './skills-section'
+import { SectionLabel } from './_cv-utils'
 
 type LinkItem = {
   label?: string | null
@@ -25,6 +27,8 @@ type ProfileData = {
   summary?: string | null
   email?: string | null
   links?: LinkItem[] | null
+  stats?: { value?: string | null; label?: string | null }[] | null
+  resume?: { url?: string | null } | null
 }
 
 type ExperienceData = {
@@ -38,6 +42,7 @@ type ExperienceData = {
   summary?: string | null
   highlights?: { text?: string | null }[] | null
   technologies?: { name?: string | null }[] | null
+  type?: string | null
 }
 
 type ProjectData = {
@@ -47,12 +52,17 @@ type ProjectData = {
   featured?: boolean | null
   links?: LinkItem[] | null
   stack?: { name?: string | null }[] | null
+  image?: { url?: string | null } | null
+  startDate?: string | null
+  endDate?: string | null
+  roleLabel?: string | null
+  highlights?: { text?: string | null }[] | null
 }
 
 type SkillData = {
   id: string | number
   category?: string | null
-  items?: { name?: string | null; level?: string | null }[] | null
+  items?: { name?: string | null; level?: string | null; years?: number | null }[] | null
 }
 
 type EducationData = {
@@ -106,13 +116,11 @@ export async function CVPage({ locale }: { locale: Locale }) {
   const data = await getCVData(locale)
 
   const profile = data.profile
-  const contactLinks = [
-    ...(profile?.email ? [{ label: 'Email', url: `mailto:${profile.email}` }] : []),
-    ...(profile?.links?.filter((link) => link?.label && link?.url) ?? []),
-  ]
+  const contactLinks = profile?.links?.filter((link) => link?.label && link?.url) ?? []
 
   return (
     <main className="bg-background" id="content">
+      {/* Hero */}
       <section className="container py-16 md:py-24">
         <div className="mb-10 flex flex-wrap items-center justify-between gap-4 text-sm">
           <a className="sr-only focus:not-sr-only" href="#experience">
@@ -131,162 +139,144 @@ export async function CVPage({ locale }: { locale: Locale }) {
           </Button>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1.4fr_0.6fr]">
+        <div className="grid gap-12 lg:grid-cols-[1fr_300px]">
           <div>
-            <Badge className="mb-6" variant="secondary">
-              Payload CMS + Next.js
-            </Badge>
-            <h1 className="max-w-4xl text-4xl font-semibold tracking-tight md:text-6xl">
+            <h1 className="text-4xl font-bold tracking-tight md:text-6xl">
               {profile?.name || t('defaultName')}
             </h1>
-            <p className="mt-4 max-w-3xl text-2xl text-muted-foreground">
+            <p className="mt-4 text-2xl text-muted-foreground">
               {profile?.headline || t('defaultHeadline')}
             </p>
-            <p className="mt-6 max-w-3xl text-lg leading-8">
+            <p className="mt-6 max-w-2xl text-lg leading-8">
               {profile?.summary || t('defaultSummary')}
             </p>
-            {profile?.location && <p className="mt-4 text-muted-foreground">{profile.location}</p>}
-          </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>{t('contact')}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {contactLinks.length > 0 ? (
-                contactLinks.map((link) => (
-                  <Button asChild className="w-full justify-start" key={link.url} variant="outline">
-                    <a href={link.url ?? '#'} rel="noreferrer" target="_blank">
-                      {link.label}
-                    </a>
-                  </Button>
-                ))
-              ) : (
-                <p className="text-sm text-muted-foreground">{t('empty')}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              {profile?.email && (
+                <Button asChild>
+                  <a href={`mailto:${profile.email}`}>{t('getInTouch')}</a>
+                </Button>
               )}
-            </CardContent>
-          </Card>
+              {contactLinks.map((link) => (
+                <Button asChild key={link.url} variant="outline">
+                  <a href={link.url ?? '#'} rel="noreferrer" target="_blank">
+                    {link.label}
+                  </a>
+                </Button>
+              ))}
+            </div>
+          </div>
+          <HeroInfoCard stats={profile?.stats} />
         </div>
+
       </section>
 
-      <Separator />
-
-      <section className="container grid gap-8 py-12 lg:grid-cols-[0.5fr_1.5fr]" id="experience">
-        <SectionTitle title={t('experience')} />
-        <div className="space-y-4">
-          {data.experiences.length > 0 ? (
-            data.experiences.map((experience) => (
-              <ExperienceCard
-                company={experience.company}
-                dateRange={formatDateRange(experience, locale, t('current'))}
-                defaultOpen={Boolean(experience.isCurrent)}
-                highlights={experience.highlights}
-                key={experience.id}
-                location={experience.location}
-                role={experience.role}
-                summary={experience.summary}
-                technologies={experience.technologies}
-              />
-            ))
-          ) : (
-            <EmptyCard message={t('empty')} />
-          )}
-        </div>
-      </section>
-
-      <Separator />
-
-      <section className="container grid gap-8 py-12 lg:grid-cols-[0.5fr_1.5fr]">
-        <SectionTitle title={t('projects')} />
-        <div className="grid gap-4 md:grid-cols-2">
-          {data.projects.length > 0 ? (
-            data.projects.map((project) => (
-              <Card key={project.id}>
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <CardTitle>{project.title}</CardTitle>
-                    {project.featured && <Badge>{t('featured')}</Badge>}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {project.description && <p className="text-muted-foreground">{project.description}</p>}
-                  <BadgeList items={project.stack?.map((item) => item.name)} />
-                  {project.links && project.links.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {project.links.map((link) =>
-                        link.url ? (
-                          <Button asChild key={link.url} size="sm" variant="outline">
-                            <a href={link.url} rel="noreferrer" target="_blank">
-                              {link.label}
-                            </a>
-                          </Button>
-                        ) : null,
-                      )}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))
-          ) : (
-            <EmptyCard message={t('empty')} />
-          )}
-        </div>
-      </section>
-
-      <Separator />
-
-      <section className="container grid gap-8 py-12 lg:grid-cols-[0.5fr_1.5fr]">
-        <SectionTitle title={t('skills')} />
-        <div className="grid gap-4 md:grid-cols-2">
-          {data.skills.length > 0 ? (
-            data.skills.map((skill) => (
-              <Card key={skill.id}>
-                <CardHeader>
-                  <CardTitle>{skill.category}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <BadgeList items={skill.items?.map((item) => item.name)} />
-                </CardContent>
-              </Card>
-            ))
-          ) : (
-            <EmptyCard message={t('empty')} />
-          )}
-        </div>
-      </section>
-
-      <Separator />
-
-      <section className="container grid gap-8 py-12 lg:grid-cols-[0.5fr_1.5fr]">
-        <SectionTitle title={t('education')} />
-        <TimelineList
-          items={data.education.map((item) => ({
-            description: item.description,
-            id: item.id,
-            meta: [item.institution, item.location].filter(Boolean).join(' · '),
-            title: item.degree,
-            when: formatDateRange(item, locale, ''),
-          }))}
-          message={t('empty')}
+      {/* Experience */}
+      <div className="border-t border-border">
+        <ExperienceSection
+          experiences={data.experiences}
+          locale={locale}
+          strings={{
+            all: t('filterAll'),
+            engineering: t('filterEngineering'),
+            leadership: t('filterLeadership'),
+            education: t('filterEducation'),
+            certification: t('filterCertification'),
+            current: t('current'),
+            sectionLabel: t('sectionCareer'),
+            empty: t('empty'),
+          }}
         />
-      </section>
+      </div>
 
-      <Separator />
-
-      <section className="container grid gap-8 py-12 lg:grid-cols-[0.5fr_1.5fr]">
-        <SectionTitle title={t('certifications')} />
-        <TimelineList
-          items={data.certifications.map((item) => ({
-            id: item.id,
-            meta: item.issuer,
-            title: item.title,
-            url: item.url,
-            when: item.issuedAt ? formatDate(item.issuedAt, locale) : '',
-          }))}
-          message={t('empty')}
+      {/* Skills */}
+      <div className="border-t border-border">
+        <SkillsSection
+          skills={data.skills}
+          legendText={t('skillsLegend')}
+          sectionLabel={t('sectionStack')}
         />
-      </section>
+      </div>
+
+      {/* Projects */}
+      <div className="border-t border-border">
+        <ProjectsSection
+          projects={data.projects}
+          locale={locale}
+          sectionLabel={t('sectionWork')}
+          featuredLabel={t('featured')}
+          emptyMessage={t('empty')}
+        />
+      </div>
+
+      {/* Background */}
+      <div className="border-t border-border">
+        <BackgroundSection
+          education={data.education}
+          certifications={data.certifications}
+          locale={locale}
+          sectionLabel={t('sectionBackground')}
+          educationTitle={t('education')}
+          certificationsTitle={t('certifications')}
+          emptyMessage={t('empty')}
+        />
+      </div>
+
+      {/* Contact */}
+      <div className="border-t border-border">
+        <section className="container py-12">
+          <SectionLabel label={t('sectionReachOut')} />
+          <h2 className="mb-6 text-3xl font-semibold tracking-tight">{t('contact')}</h2>
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+            {profile?.email && (
+              <ContactCard label="Email" href={`mailto:${profile.email}`} />
+            )}
+            {contactLinks.map((link) => (
+              <ContactCard key={link.url} label={link.label ?? ''} href={link.url ?? '#'} />
+            ))}
+          </div>
+          {!profile?.email && contactLinks.length === 0 && (
+            <p className="text-sm text-muted-foreground">{t('empty')}</p>
+          )}
+        </section>
+      </div>
     </main>
+  )
+}
+
+function HeroInfoCard({
+  stats,
+}: {
+  stats?: { value?: string | null; label?: string | null }[] | null
+}) {
+  if (!stats || stats.length === 0) return null
+  return (
+    <Card>
+      <CardContent className="pt-6 space-y-3">
+        {stats.map((stat, i) => (
+          <div className="flex items-center justify-between gap-2" key={i}>
+            <span className="text-sm text-muted-foreground">{stat.label}</span>
+            <span className="font-mono text-sm font-semibold">{stat.value}</span>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  )
+}
+
+function ContactCard({ label, href }: { label: string; href: string }) {
+  return (
+    <Card>
+      <CardContent className="pt-6">
+        <a
+          className="block text-sm font-medium hover:underline"
+          href={href}
+          rel="noreferrer"
+          target="_blank"
+        >
+          {label}
+        </a>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -294,9 +284,9 @@ async function getCVData(locale: Locale): Promise<CVData> {
   try {
     const payload = await getPayload({ config: configPromise })
     const [profile, experiences, projects, skills, education, certifications] = await Promise.all([
-      payload.findGlobal({ slug: 'profile', locale }),
+      payload.findGlobal({ slug: 'profile', locale, depth: 1 }),
       payload.find({ collection: 'experiences', limit: 100, locale, sort: '-startDate' }),
-      payload.find({ collection: 'projects', limit: 100, locale, sort: 'sortOrder' }),
+      payload.find({ collection: 'projects', limit: 100, locale, sort: 'sortOrder', depth: 1 }),
       payload.find({ collection: 'skills', limit: 100, locale, sort: 'sortOrder' }),
       payload.find({ collection: 'education', limit: 100, locale, sort: '-startDate' }),
       payload.find({ collection: 'certifications', limit: 100, locale, sort: '-issuedAt' }),
@@ -306,114 +296,12 @@ async function getCVData(locale: Locale): Promise<CVData> {
       certifications: certifications.docs,
       education: education.docs,
       experiences: experiences.docs,
-      profile,
-      projects: projects.docs,
+      profile: profile as unknown as ProfileData,
+      projects: projects.docs as unknown as ProjectData[],
       skills: skills.docs,
     }
   } catch (error) {
     console.error('Unable to load CV data from Payload', error)
     return emptyData
   }
-}
-
-function SectionTitle({ title }: { title: string }) {
-  return <h2 className="text-3xl font-semibold tracking-tight">{title}</h2>
-}
-
-function EmptyCard({ message }: { message: string }) {
-  return (
-    <Card>
-      <CardContent className="pt-6">
-        <p className="text-sm text-muted-foreground">{message}</p>
-      </CardContent>
-    </Card>
-  )
-}
-
-function BadgeList({ items }: { items?: (string | null | undefined)[] }) {
-  const filtered = items?.filter(Boolean) ?? []
-
-  if (filtered.length === 0) return null
-
-  return (
-    <div className="flex flex-wrap gap-2">
-      {filtered.map((item) => (
-        <Badge key={item} variant="secondary">
-          {item}
-        </Badge>
-      ))}
-    </div>
-  )
-}
-
-function TimelineList({
-  items,
-  message,
-}: {
-  items: {
-    description?: string | null
-    id: string | number
-    meta?: string | null
-    title?: string | null
-    url?: string | null
-    when?: string | null
-  }[]
-  message: string
-}) {
-  if (items.length === 0) {
-    return <EmptyCard message={message} />
-  }
-
-  return (
-    <div className="space-y-4">
-      {items.map((item) => (
-        <Card key={item.id}>
-          <CardHeader>
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <CardTitle>
-                  {item.url ? (
-                    <a className="hover:underline" href={item.url} rel="noreferrer" target="_blank">
-                      {item.title}
-                    </a>
-                  ) : (
-                    item.title
-                  )}
-                </CardTitle>
-                {item.meta && <p className="mt-1 text-muted-foreground">{item.meta}</p>}
-              </div>
-              {item.when && <Badge variant="outline">{item.when}</Badge>}
-            </div>
-          </CardHeader>
-          {item.description && (
-            <CardContent>
-              <p className="text-muted-foreground">{item.description}</p>
-            </CardContent>
-          )}
-        </Card>
-      ))}
-    </div>
-  )
-}
-
-function formatDateRange(
-  value: {
-    endDate?: string | null
-    isCurrent?: boolean | null
-    startDate?: string | null
-  },
-  locale: Locale,
-  currentLabel: string,
-) {
-  const start = value.startDate ? formatDate(value.startDate, locale) : ''
-  const end = value.isCurrent ? currentLabel : value.endDate ? formatDate(value.endDate, locale) : ''
-
-  return [start, end].filter(Boolean).join(' - ')
-}
-
-function formatDate(value: string, locale: Locale) {
-  return new Intl.DateTimeFormat(locale, {
-    month: 'short',
-    year: 'numeric',
-  }).format(new Date(value))
 }
