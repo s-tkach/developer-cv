@@ -139,7 +139,7 @@ export async function CVPage({ locale }: { locale: Locale }) {
           </Button>
         </div>
 
-        <div className="grid gap-12 lg:grid-cols-[1fr_300px]">
+        <div className="grid gap-12 lg:grid-cols-[1fr_420px]">
           <div>
             <h1 className="text-4xl font-bold tracking-tight md:text-6xl">
               {profile?.name || t('defaultName')}
@@ -243,23 +243,76 @@ export async function CVPage({ locale }: { locale: Locale }) {
   )
 }
 
+const STATUS_DOT_COLORS: Record<string, string> = {
+  available: 'bg-green-500',
+  busy: 'bg-yellow-500',
+  unavailable: 'bg-red-500',
+}
+
+function StatusDot({ value }: { value: string }) {
+  const lower = value.toLowerCase()
+  const color =
+    Object.entries(STATUS_DOT_COLORS).find(([key]) => lower.includes(key))?.[1] ?? 'bg-zinc-400'
+  return <span className={`inline-block h-2.5 w-2.5 rounded-full shrink-0 ${color}`} />
+}
+
 function HeroInfoCard({
   stats,
 }: {
   stats?: { value?: string | null; label?: string | null }[] | null
 }) {
   if (!stats || stats.length === 0) return null
+
+  const mainStats = stats.filter((s) => s.label?.toLowerCase() !== 'right now')
+  const rightNowStat = stats.find((s) => s.label?.toLowerCase() === 'right now')
+  const rightNowItems = rightNowStat?.value
+    ? rightNowStat.value.split(/\n|;/).map((s) => s.trim()).filter(Boolean)
+    : []
+
   return (
-    <Card>
-      <CardContent className="pt-6 space-y-3">
-        {stats.map((stat, i) => (
-          <div className="flex items-center justify-between gap-2" key={i}>
-            <span className="text-sm text-muted-foreground">{stat.label}</span>
-            <span className="font-mono text-sm font-semibold">{stat.value}</span>
+    <div className="rounded-2xl border border-border bg-card p-6 space-y-0 text-sm font-mono">
+      {mainStats.map((stat, i) => {
+        const isStatus = stat.label?.toLowerCase() === 'status'
+        return (
+          <div key={i}>
+            <div className="flex items-center justify-between gap-4 py-3">
+              <span className="text-xs uppercase tracking-widest text-muted-foreground shrink-0">
+                {stat.label}
+              </span>
+              {isStatus ? (
+                <span className="flex items-center gap-2 text-right">
+                  <StatusDot value={stat.value ?? ''} />
+                  {stat.value}
+                </span>
+              ) : (
+                <span className="text-right">{stat.value}</span>
+              )}
+            </div>
+            {i < mainStats.length - 1 && (
+              <div className="border-t border-dashed border-border" />
+            )}
           </div>
-        ))}
-      </CardContent>
-    </Card>
+        )
+      })}
+
+      {rightNowItems.length > 0 && (
+        <>
+          <div className="border-t border-border pt-4 mt-2">
+            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+              Right now
+            </span>
+          </div>
+          <ul className="mt-2 space-y-1.5">
+            {rightNowItems.map((item, i) => (
+              <li key={i} className="flex gap-2">
+                <span className="text-muted-foreground">›</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
   )
 }
 
