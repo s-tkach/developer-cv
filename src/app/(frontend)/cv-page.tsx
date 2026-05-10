@@ -122,18 +122,10 @@ export async function CVPage({ locale }: { locale: Locale }) {
     <main className="bg-background" id="content">
       {/* Hero */}
       <section className="container py-16 md:py-24">
-        <div className="mb-10 flex flex-wrap items-center justify-between gap-4 text-sm">
+        <div className="mb-10 flex flex-wrap items-center justify-end gap-4 text-sm">
           <a className="sr-only focus:not-sr-only" href="#experience">
             {nav('skipToContent')}
           </a>
-          <div aria-label={nav('language')} className="flex gap-2">
-            <Button asChild size="sm" variant={locale === 'en' ? 'default' : 'outline'}>
-              <Link href="/en">{nav('english')}</Link>
-            </Button>
-            <Button asChild size="sm" variant={locale === 'uk' ? 'default' : 'outline'}>
-              <Link href="/uk">{nav('ukrainian')}</Link>
-            </Button>
-          </div>
           <Button asChild size="sm" variant="secondary">
             <Link href="/admin">{t('adminCta')}</Link>
           </Button>
